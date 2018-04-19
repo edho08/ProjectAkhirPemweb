@@ -1,0 +1,4 @@
+pol;Political
+ani;Anime
+v;Video Game
+mem;Meme
