@@ -1,4 +1,5 @@
 <?php
+	include_once 'Database.php';
 	function getHead( $title ){
 	session_start();
 ?>
@@ -9,13 +10,13 @@
 
 <?php
 	function printHTMLBoard(){
-		$arrayofBoard = getBoardList();
+		$arrayofBoard = getBoards();
 ?>
 		<form action="Thread.php" method="POST">
 <?php
 		foreach($arrayofBoard as $Board){
 ?>	
-		<button name='board' type='submit' class="ui button" value="<?php echo $Board['ID']; ?>"> <?php echo $Board['name']; ?> </button>
+		<button name='board' type='submit' class="ui button" value="<?php echo $Board['id_board']; ?>"> <?php echo $Board['name']; ?> </button>
 <?php
 		}
 		
@@ -43,18 +44,6 @@
 ?>
 
 <?php
-	function getBoardList(){
-		$file = fopen('board.txt','r') or die('couldnt access board');
-		$array = [];
-		while(!feof($file)){
-			$data = fgets($file);
-			if($data){
-				$string = explode(';',$data);
-				$array[] = ['ID' => $string[0], 'name' => $string[1]];
-			}
-		}
-		return $array;
-	}
 	function getActiveThread($boardID){
 		
 	}

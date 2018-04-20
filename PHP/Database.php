@@ -41,7 +41,7 @@
 		$statement->execute();
 		$statement->bind_result($id_board, $name, $max_thread);
 		while($statement->fetch()){
-			$board[] = [$id_board, $name, $max_thread]; 
+			$board[] = ["id_board"=>$id_board, "name"=>$name, "max_thread"=>$max_thread]; 
 		}
 		return $board;
 	}
