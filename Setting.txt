@@ -1,0 +1,2 @@
+php.ini
+allow_url_fopen = true
