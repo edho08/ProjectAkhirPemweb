@@ -12,33 +12,33 @@
 	function printHTMLBoard(){
 		$arrayofBoard = getBoards();
 ?>
-		<form action="Thread.php" method="POST">
+		<form action="Board.php" method="POST">
 <?php
-		foreach($arrayofBoard as $Board){
+		if($arrayofBoard){
+			foreach($arrayofBoard as $Board){
 ?>	
-		<button name='board' type='submit' class="ui button" value="<?php echo $Board['id_board']; ?>"> <?php echo $Board['name']; ?> </button>
+		<button name='board' type='submit' class="ui red small button" value="<?php echo $Board['id_board']; ?>"> <?php echo $Board['name']; ?> </button>
 <?php
+			}
 		}
-		
 	}
 ?>
 
 <?php
 	function printHTMLHeader(){
 		?>
-			<div class="head">
-				<table>
-				<tr>
-					<td>
-						[<img src="logo.jpg" href = "index.php"></img>]
-					<td>
-					<td>
-						[<a href="index.php">HOME</a>]
-					</td>
-				</tr>
-				
-				</table>
-			</div>
+		<div class="ui tiny menu">
+			<a class="item" href="index.php">
+				Home
+			</a>
+			<a class="active item" href="rule.php">
+				Rules
+			</a>
+			<a class="active item" href="faq.php">
+				FAQ
+			</a>
+		</div>
+
 		<?php
 	}
 ?>
