@@ -32,7 +32,7 @@ CREATE TABLE `Admin`(
 	poster_name VARCHAR(16) DEFAULT "Anon",
 	trip_code VARCHAR(16) DEFAULT NULL,
     comment VARCHAR(500) NOT NULL,
-    image CHAR(16), 
+    image CHAR(20), 
 	time_posted DATETIME NOT NULL,
 	num_of_report INT UNSIGNED DEFAULT 0,
 	PRIMARY KEY (id_post)

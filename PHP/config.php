@@ -13,4 +13,5 @@ define('MAX_W',  '250');			//Images exceeding this width will be thumbnailed
 define('MAX_H',  '250');			//Images exceeding this height will be thumbnailed
 define('THUM_S', '0.2');			//Desired Thumbnail size (h, w) in percent 
 define('SBP', '5');			//Seconds between posts (floodcheck)
+define('MIS', '5000000');               //Max file Size
 ?>
