@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 function getHead($title) {
     ?>
-    <title><?php echo $title; ?></title>
+    <title><?php echo TITLE . ' - '. $title; ?></title>
     <link rel="stylesheet" type="text/css" href="CSS/semantic/semantic.min.css">
     <script src="scripts/jquery-3.3.1.min.js"</script>
     <script src="CSS/semantic/semantic.min.js"></script>

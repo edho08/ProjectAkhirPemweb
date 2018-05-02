@@ -92,6 +92,7 @@ function insertNewPoster($threadID, $sessionID) {
 }
 
 function insertNewPost($sessionID, $threadID, $comment, $posterName = "Anon", $tripPhrase = null, $imagePath = null) {
+	echo getcwd();
     if ($imagePath && checkImage($imagePath)) {
         $newImageName = generateImageName($imagePath);
         $thumbnail = make_thumb($imagePath, THUMB_DIR . $newImageName);
@@ -124,12 +125,12 @@ function insertNewPost($sessionID, $threadID, $comment, $posterName = "Anon", $t
 
 function getPost($threadID) {
     $con = getConnection(SQLUSER, SQLPASS);
-    $statement = $con->prepare("SELECT `id_post`, `id_thread`, `id_poster`, `reply_no`, `poster_name`, `trip_code`, `comment`, `image`, `num_of_report` FROM `post` WHERE id_thread = ?");
+    $statement = $con->prepare("SELECT `id_post`, `id_thread`, `id_poster`, `reply_no`, `poster_name`, `trip_code`, `comment`, `image`, `num_of_report`, `time_posted`  FROM `post` WHERE id_thread = ? ORDER BY reply_no");
     $statement->bind_param('s', $threadID);
     $statement->execute();
-    $statement->bind_result($id_post, $id_thread, $id_poster, $reply_no, $poster_name, $trip_code, $comment, $image, $num_of_report);
+    $statement->bind_result($id_post, $id_thread, $id_poster, $reply_no, $poster_name, $trip_code, $comment, $image, $num_of_report, $time_posted);
     while ($statement->fetch()) {
-        $post[] = ['id_post' => $id_post, "id_thread" => $id_thread, "id_poster" => $id_poster, "reply_no" => $reply_no, "poster_name" => $poster_name, "trip_code" => $trip_code, "comment" => $comment, "image" => $image, "num_of_report" => $num_of_report];
+        $post[] = ['id_post' => $id_post, "id_thread" => $id_thread, "id_poster" => $id_poster, "reply_no" => $reply_no, "poster_name" => $poster_name, "trip_code" => $trip_code, "comment" => $comment, "image" => $image, "num_of_report" => $num_of_report, 'time_posted'=>$time_posted];
     }
     closeConnection($con);
     return $post;
@@ -174,8 +175,8 @@ function insertNewThread($boardID, $sessionID, $subject, $comment, $posterName =
     $threadID = getThreadsIDNext();
     $datetime = date("Y-m-d H:i:s");
     $con = getConnection(SQLUSER, SQLPASS);
-    $statement = $con->prepare("INSERT INTO Thread (id_thread, id_board, creation_date, subject) VALUES (?,?,?,?)");
-    $statement->bind_param("ssss", $threadID, $boardID, $datetime, $subject);
+    $statement = $con->prepare("INSERT INTO Thread (id_thread, id_board, creation_date, subject, last_bump) VALUES (?,?,?,?,?)");
+    $statement->bind_param("sssss", $threadID, $boardID, $datetime, $subject, $datetime);
     $statement->execute() or die("Cannot Insert Thread");
     insertNewPost($sessionID, $threadID, $comment, $posterName, $tripPhrase, $imagePath);
     closeConnection($con);
@@ -217,6 +218,18 @@ function getThreadOP($threadID) {
     closeConnection($con);
     return $post;
 }
+function getThreadbyID($threadID){
+	$con = getConnection(SQLUSER, SQLPASS);
+    $statement = $con->prepare("SELECT `id_thread`, `id_board`, `max_post`, `creation_date`, `subject`, `sticky`, `num_of_report` FROM `thread` WHERE id_thread = ?");
+    $statement->bind_param('i', $threadID);
+    $statement->execute();
+    $statement->bind_result($id_thread, $id_board, $max_post, $creation_date, $subject, $sticky, $num_of_report);
+    $thread = null;
+    $statement->fetch();
+    $thread = ["id_thread" => $id_thread, "id_board" => $id_board, "max_post" => $max_post, "creation_date" => $creation_date, "subject" => $subject, "sticky" => $sticky, "num_of_report" => $num_of_report];
+    closeConnection($con);
+    return $thread;
+}
 
 function generateTripCode($tripPhrase) {
     return substr(hash('md5', $tripPhrase), 0, 16);
@@ -244,7 +257,7 @@ function generateImageExtension($imageName) {
             $newImageName = '.jpg';
 
             break;
-        case 3:
+        case IMG_PNG:
             $newImageName = '.png';
 
             break;
@@ -279,7 +292,7 @@ function make_thumb($src, $dest) {
             case IMG_JPG:
                 $source_image = imagecreatefromjpeg($src);
                 break;
-            case 3:
+            case IMG_PNG:
                 $source_image = imagecreatefrompng($src);
                 break;
             case IMG_WBMP:

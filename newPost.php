@@ -1,8 +1,7 @@
 <?php
 include "PHP/Functions.php";
-if (isset($_POST["insertThread"])) {
+if (isset($_POST["insertPost"])) {
     $name = $_POST["name"];
-    $subject = $_POST["subject"];
     $tripcode = $_POST["tripcode"];
     $comment = $_POST["comment"];
     $tmp_img = $_FILES["img"]["tmp_name"];

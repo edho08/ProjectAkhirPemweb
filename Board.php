@@ -7,7 +7,7 @@ if (isset($_GET["board"])) {
     <html>
         <head>
             <?php
-            getHead($board);
+            getHead($name);
             ?>
             <style>
                 .column{
