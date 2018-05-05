@@ -38,12 +38,10 @@ if (isset($_GET["board"])) {
                     padding:5px 0 3px;
                     position:relative;
                     display:inline-block;
-
-
                 }
             </style>
         </head>
-        <body style="background-color:#F1D816">
+        <body style="background-color:#2E4874">
             <div class= "ui grid">
                 <div class = "sixteen wide column"><?php printHTMLHeader() ?></div>
                 <div class="sixteen wide column">
@@ -52,64 +50,15 @@ if (isset($_GET["board"])) {
                 <div class="four wide column">
                 </div>
                 <div class="eight wide column">
-                    <h2>Post a Thread</h2>
-                    <p>Please read the rules before posting</p> 
-                    <form action="NewThread.php" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="board" value="<?php echo $board ?>">
-                        <input type="hidden" name="insertThread" value="true">
-                        <table>
-                            <tr>
-                                <td>
-                                    Name
-                                </td>
-                                <td>:</td>
-                                <td>
-                                    <input type="text" name="name" value="Anonymous">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Trip Phrase
-                                </td>
-                                <td>:</td>
-                                <td>
-                                    <input type="text" name="tripcode" value="">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Subject
-                                </td>
-                                <td>:</td>
-                                <td>
-                                    <input type="text" name="subject" required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Comment
-                                </td>
-                                <td>:</td>
-                                <td>
-                                    <textarea name="comment"></textarea>
-                                </td>
-                            </tr><tr>
-                                <td>
-                                    Image:
-                                </td>
-                                <td>:</td>
-                                <td>
-                                    <input type="file" name='img' required="">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="submit" value="New Thread">
-                                </td>
-                            </tr>
-                        </table>
-                </div>
-            </form>
+                    <div class="ui form">
+                      <div class="ui message">
+                        <div class="header"><h2>Post a Thread</h2></div>
+                        <ul class="list">
+                          <p>Please read the rules before posting</p> 
+                        </ul>
+                      </div>
+                    </div><br>
+                    <?php printHTMLNewThreadForm($board); ?>
             <div class="sixteen wide column"><h1 align="center">Threads</h1></div>
             <div class="ui container">
                 <div class="sixteen wide column">

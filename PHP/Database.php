@@ -92,7 +92,6 @@ function insertNewPoster($threadID, $sessionID) {
 }
 
 function insertNewPost($sessionID, $threadID, $comment, $posterName = "Anon", $tripPhrase = null, $imagePath = null) {
-	echo getcwd();
     if ($imagePath && checkImage($imagePath)) {
         $newImageName = generateImageName($imagePath);
         $thumbnail = make_thumb($imagePath, THUMB_DIR . $newImageName);
@@ -283,8 +282,6 @@ function checkImageExistance($imageName) {
 function make_thumb($src, $dest) {
     if (checkImage($src)) {
         $image = getimagesize($src);
-        echo $image[2];
-        echo IMG_PNG;
         switch ($image[2]) {
             case IMG_GIF:
                 $source_image = imagecreatefromgif($src);

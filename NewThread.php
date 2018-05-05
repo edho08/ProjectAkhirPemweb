@@ -18,4 +18,3 @@ if (isset($_POST["insertThread"])) {
 } else {
 	header("location:index.php");
 }
-?>
