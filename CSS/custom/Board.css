@@ -1,0 +1,29 @@
+.thread {
+vertical-align:top;
+display:inline-block;
+word-wrap:break-word;
+overflow:hidden;
+margin-top:5px;
+margin-bottom:20px;
+padding:5px 0 3px;
+position:relative;
+width: 800px;
+height: 160px;
+}
+.thread a {
+border:0
+}
+.thread img {
+padding:5px 0 3px;
+display:inline
+}
+.thread p{
+padding:5px 0 3px;
+}
+.space{
+margin-left:15px;
+margin-right:15px;
+padding:5px 0 3px;
+position:relative;
+display:inline-block;
+}

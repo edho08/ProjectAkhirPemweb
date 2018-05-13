@@ -43,7 +43,7 @@ function printHTMLBoard() {
 function printHTMLHeader() {
     ?>
     <div class="ui inverted menu">
-          <div class="header item">Anon Post .com</div>
+          <div class="item"><a href="index.php">Anon Post</a></div>
           <a class="item" href="rule.php">Rules</a>
           <a class="item" href="faq.php">FAQ</a>
           <a class="item"><div class="ui category search">
@@ -63,6 +63,45 @@ function printHTMLHeader() {
 }
 ?>
 
+<?php
+
+function printHTMLNewPostForm($thread) {
+    ?>
+    <form action="newPost.php" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="thread" value="<?php echo $thread ?>">
+        <input type="hidden" name="insertPost" value="true">
+        <div class="ui inverted segment">
+            <div class="ui inverted form">
+                <div class="one fields">
+                    <div class="field">
+                        <label>Name</label>
+                        <input type="text" value="anonymous" name="name">
+                    </div>
+                </div>
+                <div class="one fields">
+                    <div class="field">
+                        <label>Trip phrase</label>
+                        <input type="text" name="tripcode">
+                    </div>
+                </div>
+                    <div class="field">
+                        <label>Comment</label>
+                        <textarea name="comment"></textarea>
+                    </div>
+                <div class="one field">
+                    <input type="file" name='img'>
+                </div>
+                <div class="one fields">
+                    <div class="field">                
+                            <button class="ui button">POST</button>
+                    </div>
+                </div>
+            </div>                      
+        </div>  
+    </form> 
+    <?php
+}
+?>
 <?php
 
 function printHTMLNewThreadForm($board) {
@@ -99,9 +138,9 @@ function printHTMLNewThreadForm($board) {
                 <input type="file" name='img' required=""><br><br>
                 <div class="one fields">
                     <div class="field">                                
-                        <div class="ui submit button">
-                            <button type="submit">POST</button>
-                        </div>
+                        <div class="field">                
+                            <button class="ui button">POST</button>
+                    </div>
                     </div>
                 </div>
             </div>                      
@@ -110,7 +149,6 @@ function printHTMLNewThreadForm($board) {
     <?php
 }
 ?>
-
 <?php
 
 function getActiveThread($boardID) {

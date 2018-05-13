@@ -9,37 +9,7 @@ if (isset($_GET["board"])) {
             <?php
             getHead($name);
             ?>
-            <style>
-                .column{
-
-                }.thread {
-                    vertical-align:top;
-                    display:inline-block;
-                    word-wrap:break-word;
-                    overflow:hidden;
-                    margin-top:5px;
-                    margin-bottom:20px;
-                    padding:5px 0 3px;
-                    position:relative;
-                }
-                .thread a {
-                    border:0
-                }
-                .thread img {
-                    padding:5px 0 3px;
-                    display:inline
-                }
-                .thread p{
-                    padding:5px 0 3px;
-                }
-                .space{
-                    margin-left:15px;
-                    margin-right:15px;
-                    padding:5px 0 3px;
-                    position:relative;
-                    display:inline-block;
-                }
-            </style>
+            <link rel="stylesheet" type="text/css" href="CSS/custom/Board.css">
         </head>
         <body style="background-color:#2E4874">
             <div class= "ui grid">
@@ -59,41 +29,27 @@ if (isset($_GET["board"])) {
                       </div>
                     </div><br>
                     <?php printHTMLNewThreadForm($board); ?>
-            <div class="sixteen wide column"><h1 align="center">Threads</h1></div>
-            <div class="ui container">
-                <div class="sixteen wide column">
-                    <div class="content">
+                    <div class="sixteen wide column"><h1 align="center">Threads</h1></div>
                         <span class="space"></span>
-                        <div class="threads">
-                            <?php
-                            $threads = getThread($board, true);
-                            if ($threads) {
-                                foreach ($threads as $thread) {
-                                    $op = getThreadOP($thread['id_thread']);
-                                    ?>
-                                    <div class="thread" style="max-width:150px">
-                                        <a href="Thread.php?id=<?php echo $thread['id_thread']; ?>&r=<?php echo hash('crc32', rand()); ?>" >
-                                            <div class="ui small image" align="center">
-                                                <img  src="<?php echo THUMB_DIR . $op['image']; ?>">
-                                            </div>
-                                        </a>
-                                        <div>
-                                            <p align="center" ><b>R</b> : <?php echo getThreadPostCount($thread['id_thread']); ?><br><?php echo '<b>' . $thread["subject"] . '</b> : ' . substr($op['comment'], 0, 90); ?></p>
-                                        </div>
-
-                                    </div>
-                                    <span class="space"></span>
-                                    <?php
-                                }
-                            }
-                            ?>
+                        <?php
+                        $threads = getThread($board, true);
+                        if ($threads) {
+                        foreach ($threads as $thread) {
+                        $op = getThreadOP($thread['id_thread']);
+                        ?>
+                        <div class="ui message">
+                            <a href="Thread.php?id=<?php echo $thread['id_thread']; ?>&r=<?php echo hash('crc32', rand()); ?>" >
+                            <div class="thread">
+                                <img class="ui small left floated image" src="<?php echo THUMB_DIR . $op['image']; ?>" height="125" width="125">
+                            <p align="justify" ><b>R</b> : <?php echo getThreadPostCount($thread['id_thread']); ?><br><?php echo '<b>' . $thread["subject"] . '</b> : ' . substr($op['comment'], 0, 300); ?></p>
+                            </div>
                         </div>
-                    </div>
+                    <?php
+                    }
+                    }
+                    ?>
                 </div>
-            </div>  
-        </div>
-
-    </body>
+        </body>
     </html>
     <?php
 } else {

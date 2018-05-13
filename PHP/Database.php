@@ -92,12 +92,16 @@ function insertNewPoster($threadID, $sessionID) {
 }
 
 function insertNewPost($sessionID, $threadID, $comment, $posterName = "Anon", $tripPhrase = null, $imagePath = null) {
-    if ($imagePath && checkImage($imagePath)) {
-        $newImageName = generateImageName($imagePath);
-        $thumbnail = make_thumb($imagePath, THUMB_DIR . $newImageName);
-        $newImageName = $newImageName . generateImageExtension($imagePath);
-        $imagePath = rename($imagePath, IMG_DIR . $newImageName);
-    } else
+	echo getcwd();
+    echo $imagePath;
+    if ($imagePath) {
+        if(checkImage($imagePath)){
+            $newImageName = generateImageName($imagePath);
+            $thumbnail = make_thumb($imagePath, THUMB_DIR . $newImageName);
+            $newImageName = $newImageName . generateImageExtension($imagePath);
+            $imagePath = rename($imagePath, IMG_DIR . $newImageName);
+        } 
+    }else
         $thumbnail = null;
     if ($tripPhrase) {
         $tripCode = generateTripCode($tripPhrase);
@@ -282,6 +286,8 @@ function checkImageExistance($imageName) {
 function make_thumb($src, $dest) {
     if (checkImage($src)) {
         $image = getimagesize($src);
+        echo $image[2];
+        echo IMG_PNG;
         switch ($image[2]) {
             case IMG_GIF:
                 $source_image = imagecreatefromgif($src);

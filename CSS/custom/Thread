@@ -1,0 +1,46 @@
+div.thread {
+					 margin:0;
+					 clear:both
+					}
+				div.opContainer {
+					display:inline
+				}
+				div.replyContainer div.post div.file div.fileInfo {
+					margin-left:20px
+				}
+				body {
+					background-color: #ffffff;
+				}
+				body,
+				div {
+					overflow: scroll;
+				}
+				::-webkit-scrollbar {
+					display: none;
+				}
+				html {
+					box-sizing: border-box;
+				}
+				*,
+				*:before,
+				*:after {
+					box-sizing: inherit;
+				}
+				.ui.menu .item img.logo {
+					margin-right: 1.5em;
+				}
+				.wireframe {
+					margin-top: 2em;
+				}
+				#tophalf {
+					margin-top: 0;
+					overflow: visible;
+				}
+				#bottomhalf {
+					margin-left: 0;
+					margin-right: 0;
+					height: calc(100vh - 29px);
+				}
+				#mainview {
+					padding: 2%;
+				}
