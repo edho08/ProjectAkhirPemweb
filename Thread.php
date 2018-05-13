@@ -37,7 +37,7 @@
 			<?php getHead($thread['subject']);?>
 			<link rel="stylesheet" type="text/css" href="CSS/custom/Thread.css">
 		</head>
-		<body style="background-color:#2E4874">
+		<body style="background-color:#2E4874; overflow:visible">
 			<div class='úi grid'>
 				<div class= "ui grid">
                 <div class = "sixteen wide column"><?php printHTMLHeader() ?></div>
