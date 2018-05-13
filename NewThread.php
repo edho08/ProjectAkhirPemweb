@@ -1,6 +1,6 @@
 <?php
 include "PHP/Functions.php";
-if (isset($_POST["insertThread"])) {
+if (isset($_POST["insertThread"]) && time() - $_SESSION['laspost']>SBP) {
     $name = $_POST["name"];
     $subject = $_POST["subject"];
     $tripcode = $_POST["tripcode"];
@@ -14,6 +14,7 @@ if (isset($_POST["insertThread"])) {
     }
     move_uploaded_file($tmp_img, $img);
     insertNewThread($board, session_id(), $subject, $comment, $name, $tripcode, $img);
+	$_SESSION['laspost'] = time();
     header("location:Board.php?board=$board&r=".hash('crc32',time().session_id()));
 } else {
 	header("location:index.php");

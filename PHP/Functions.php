@@ -1,7 +1,12 @@
 <?php
 include_once 'Database.php';
 if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+    session_start();	
+	$_SESSION['laspost'] = 0;
+	if(!isset($_SESSION['adminID'])){
+	$_SESSION['adminID'] = -1;
+	$_SESSION['isAdmin'] = false;
+	}
 }
 
 function getHead($title) {
@@ -55,7 +60,8 @@ function printHTMLHeader() {
         </div></a>
         <div class="right menu">
             <div class="item">
-                <a class="item" href="">Login Admin</a>
+                <a class="item" href="auth.php"><?php if($_SESSION['adminID'] == -1){ echo "Login Admin"; } else{ echo "Logout";}?>
+</a>
             </div>
           </div>
         </div>

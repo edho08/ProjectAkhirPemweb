@@ -1,9 +1,18 @@
 <?php
 	include_once "PHP/Functions.php";
-	if(isset($_GET['id'])){
-		$id = $_GET['id'];
-		$thread = getThreadbyID($id);
-		$posts = getPost($id);
+	if(isset($_GET['tripcode'])){
+		$tripcode = $_GET['tripcode'];
+		$posts = getPostsByTripCode($tripcode);
+		
+		foreach($posts as $post){
+			$threads[$post['id_thread']] = getThreadbyID($post['id_thread']);
+		}
+		foreach($threads as $id=>$thread){
+			$thread["post"][] = getThreadOP($id);
+		}
+		foreach($posts as $post){
+			$threads[$post['id_thread']]["post"][] = $post;
+		}
  ?>
 	<html>
 		<head>
@@ -15,11 +24,9 @@
 				if(thumb.style.display== "none"){
 					thumb.style.display="";
 					img.style.display = "none";
-					image.style.maxWidth = "150"; 
 				} else {
 					img.style.display = "";
 					thumb.style.display = "none";
-					image.style.maxWidth = "400px";
 				}
 			}
 			function highlightPosterID(posterid){
@@ -34,11 +41,11 @@
 			}	
 			
 		</script>
-			<?php getHead($thread['subject']);?>
+			<?php getHead("Search : $tripcode");?>
 			<link rel="stylesheet" type="text/css" href="CSS/custom/Thread.css">
 		</head>
 		<body style="background-color:#2E4874">
-			<div class='Ãºi grid'>
+			<div class='úi grid'>
 				<div class= "ui grid">
                 <div class = "sixteen wide column"><?php printHTMLHeader() ?></div>
                 <div class="four wide column">
@@ -46,12 +53,20 @@
                 <div class="eight wide column">
                 <div class="ui segment">
 					  <div class="eight wide column" id="mainview">
-					  	<h1><?php echo '<b>' . $thread["subject"] . '</b>'?><h1>
-
 						<?php 
-							foreach($posts as $post){
-						?>
-							<div class= "Post" id="post<?php echo $post['id_post'].$post['id_poster']?>" >
+						foreach($threads as $thread){
+							?>
+						<div class="Thread">	
+						<span class="space"></span>
+                        <div class="ui message">
+                            <a href="Thread.php?id=<?php echo $thread['id_thread']; ?>&r=<?php echo hash('crc32', rand()); ?>" >
+							<h1><?php echo '<b>' . $thread["subject"] . '</b>'?>
+							</1>  
+ 
+							<?php
+							foreach($thread["post"] as $post){
+							?>
+						<div class= "Post" id="post<?php echo $post['id_post'].$post['id_poster']?>" >
 							<div class="ui stacked segment">
 								<div class="ui threaded comments">
 									<div class="comment">
@@ -64,7 +79,7 @@
 											</br>
 											<i class="paper plane outline icon"></i>
 											<a class="trip-code">
-												Trip-code : <a href="search.php?tripcode=<?php echo $post['trip_code']?>" ><?php echo $post['trip_code']?></a>
+												Trip-code : <?php echo $post['trip_code']?>
 											</a>
 											</br>
 											<i class="calendar icon"></i>
@@ -73,19 +88,6 @@
 													<?php echo $post['time_posted']?>
 												</span>
 											</div><br>
-											<?php if ($post['image']){?>
-											<div class="ui left floated rounded image" style="max-width: 150px;" id="img<?php echo $post['id_post']?>">
-											<a>
-											<img src="<?php echo THUMB_DIR . $post['image']; ?>" alt="" onclick=change("img<?php echo $post['id_post']?>") id="THMimg<?php echo $post['id_post']?>")>
-											</a>
-											<a>
-											<img style="display:none"  src="<?php echo IMG_DIR . $post['image']; ?>" alt="" onclick=change("img<?php echo $post['id_post']?>") id="IMGimg<?php echo $post['id_post']?>">
-											</a>
-											</div>
-										
-										
-											
-											<?php }?>
 											<div class="text">
 											<h4><?php echo $post['comment']?></h4>
 											</div>
@@ -94,25 +96,21 @@
 								</div>
 							</div>
 							</div>
-						<?php
-							}
-						?>
+
+							<?php
+														
+							}?>
+						</div>
 						</div>
 
+							<?php
+						}
+									
+						?>
+							
+						
 					</div>
-					<div class="four wide column">
-					</div>
-					<div class="four wide column">
-	                </div>
-	                <div class="eight wide column">
-						<div class="ui message">
-							<h2>Post Comment</h2>
-							<p>Please read the <a href="faq.php">rules</a> before posting</p>
-						</div>	                    
-						<?php printHTMLNewPOSTForm($id);?>
-					</div>
-					<div class="four wide column">
-	                </div>
+
 					</div>
 					</div>
 				

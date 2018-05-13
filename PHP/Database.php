@@ -139,20 +139,23 @@ function getPost($threadID) {
     return $post;
 }
 
-function getPostsByTripCode($tripPhrase) {
+function getPostsByTripPhrase($tripPhrase) {
     $tripCode = generateTripCode($tripPhrase);
-    $con = getConnection(SQLUSER, SQLPASS);
-    $statement = $con->prepare("SELECT `id_post`, `id_thread`, `id_poster`, `reply_no`, `poster_name`, `trip_code`, `comment`, `image`, `num_of_report` FROM `post` WHERE trip_code = ?");
+	getPostsByTripCode($tripCode);
+    
+}
+function getPostsByTripCode($tripCode) {
+	$con = getConnection(SQLUSER, SQLPASS);
+    $statement = $con->prepare("SELECT `id_post`, `id_thread`, `id_poster`, `reply_no`, `poster_name`, `trip_code`, `comment`, `image`, `num_of_report`, `time_posted` FROM `post` WHERE trip_code = ?");
     $statement->bind_param('s', $tripCode);
     $statement->execute();
-    $statement->bind_result($id_post, $id_thread, $id_poster, $reply_no, $poster_name, $trip_code, $comment, $image, $num_of_report);
+    $statement->bind_result($id_post, $id_thread, $id_poster, $reply_no, $poster_name, $trip_code, $comment, $image, $num_of_report, $time_posted);
     while ($statement->fetch()) {
-        $post[] = ['id_post' => $id_post, "id_thread" => $id_thread, "id_poster" => $id_poster, "reply_no" => $reply_no, "poster_name" => $poster_name, "trip_code" => $trip_code, "comment" => $comment, "image" => $image, "num_of_report" => $num_of_report];
+        $post[] = ['id_post' => $id_post, "id_thread" => $id_thread, "id_poster" => $id_poster, "reply_no" => $reply_no, "poster_name" => $poster_name, "trip_code" => $trip_code, "comment" => $comment, "image" => $image, "num_of_report" => $num_of_report, 'time_posted'=>$time_posted];
     }
     closeConnection($con);
     return $post;
 }
-
 function getThreadPostCount($threadID) {
     $con = getConnection(SQLUSER, SQLPASS);
     $statement = $con->prepare("SELECT COUNT(id_post) FROM Post WHERE id_thread = ?");
@@ -232,6 +235,13 @@ function getThreadbyID($threadID){
     $thread = ["id_thread" => $id_thread, "id_board" => $id_board, "max_post" => $max_post, "creation_date" => $creation_date, "subject" => $subject, "sticky" => $sticky, "num_of_report" => $num_of_report];
     closeConnection($con);
     return $thread;
+}
+function archiveThread($threadID){
+	$con = getConnection(SQLUSER, SQLPASS);
+    $statement = $con->prepare("UPDATE thread SET is_archieved = 1 WHERE id_thread=?");
+    $statement->bind_param('i', $threadID);
+    $statement->execute();
+    closeConnection($con);
 }
 
 function generateTripCode($tripPhrase) {
