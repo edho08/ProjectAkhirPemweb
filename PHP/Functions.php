@@ -51,13 +51,7 @@ function printHTMLHeader() {
           <div class="item"><a href="index.php">Anon Post</a></div>
           <a class="item" href="rule.php">Rules</a>
           <a class="item" href="faq.php">FAQ</a>
-          <a class="item"><div class="ui category search">
-          <div class="ui icon input">
-            <input class="prompt" type="text" placeholder="Search Post">
-            <i class="search icon" onclick=""></i>
-          </div>
-          <div class="results"></div>
-        </div></a>
+          
         <div class="right menu">
             <div class="item">
                 <a class="item" href="auth.php"><?php if($_SESSION['adminID'] == -1){ echo "Login Admin"; } else{ echo "Logout";}?>
