@@ -28,7 +28,6 @@ if (isset($_GET["board"])) {
                         </ul>
                       </div>
                     </div><br>
-                    <?php printHTMLNewThreadForm($board); ?>
                     <div class="sixteen wide column"><h1 align="center">Threads</h1></div>
                         <span class="space"></span>
                         <?php
@@ -41,14 +40,29 @@ if (isset($_GET["board"])) {
                             <a href="Thread.php?id=<?php echo $thread['id_thread']; ?>&r=<?php echo hash('crc32', rand()); ?>" >
                             <div class="thread">
                                 <img class="ui small left floated image" src="<?php echo THUMB_DIR . $op['image']; ?>" height="125" width="125">
-                            <p align="justify" ><b>R</b> : <?php echo getThreadPostCount($thread['id_thread']); ?><br><?php echo '<b>' . $thread["subject"] . '</b> : ' . substr($op['comment'], 0, 300); ?></p>
+							
+							<h3><?php echo '<b>' . $thread["subject"] . '</b>'?>
+							</h3>  
                             </div>
+							</a>
+							<div class="comment" style="  overflow-wrap: break-word;">
+							<p><?php echo substr($op['comment'], 0, 300); ?></p>
+							<b   overflow: auto;>R</b> : <?php echo getThreadPostCount($thread['id_thread']); ?>
+							</div>
                         </div>
                     <?php
                     }
                     }
                     ?>
                 </div>
+				<div class="four wide column">
+                </div>
+				<div class="four wide column">
+                </div>
+                <div class="eight wide column">
+				    <?php printHTMLNewThreadForm($board); ?>
+				</div>
+
         </body>
     </html>
     <?php
